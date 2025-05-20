@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"github.com/gin-gonic/gin"
 	"cbt-api/config"
 	"cbt-api/controller"
@@ -70,7 +71,11 @@ func main() {
 	r.GET("/nilai-kursus-siswa/:id_kursus/:id_siswa", controller.GetNilaiByKursusAndSiswa)
 
 	// Jalankan server
-	r.Run("192.168.56.1:8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run("0.0.0.0:" + port)
 }
 
 // Daftarkan semua endpoint jawaban siswa dan jawaban latihan ke router utama
