@@ -1,14 +1,15 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"cbt-api/config"
 	"cbt-api/entity"
-	"gorm.io/gorm"
-	"fmt" // Untuk debugging
 	"errors"
-	"strconv" // Untuk konversi string ke integer
+	"fmt"
+	"net/http"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func PostNilai(c *gin.Context) {
@@ -58,38 +59,22 @@ func PostNilai(c *gin.Context) {
 		return
 	}
 
-	// Loop untuk mengalikan nilai_kursus dengan persentase per tipe_ujian
+	// Loop untuk menghitung total nilai_kursus
 	var totalNilai float64
 	for _, nilai := range nilaiKursus {
-		// Ambil persentase berdasarkan id_tipe_ujian
-		var persentase entity.Persentase
-		err = config.DB.
-			Where("id_kursus = ? AND id_tipe_ujian = ?", idKursus, nilai.IdTipeUjian).
-			First(&persentase).Error
-
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mengambil data persentase", "detail": err.Error()})
-			return
-		}
-
-		// Pastikan persentase diubah menjadi desimal (misalnya 30% menjadi 0.30)
-		decimalPersentase := persentase.Persentase / 100
-
-		// Hitung nilai dengan mengalikan nilai_kursus dengan persentase
-		calculatedScore := nilai.NilaiTipeUjian * decimalPersentase
-		totalNilai += calculatedScore
+		// Hitung nilai total tanpa mempertimbangkan id_tipe_ujian
+		totalNilai += nilai.NilaiTipeUjian
 	}
 
 	// Debugging: Cek total nilai yang dihitung
 	fmt.Println("Total Nilai setelah dihitung:", totalNilai)
 
 	// Buat objek nilai untuk disimpan ke dalam tabel nilai
-	// Pastikan id_tipe_nilai selalu 1
 	nilai := entity.Nilai{
-		IdKursus:  uint64(idKursus), // id_kursus dari URL parameter
-		IdSiswa:   uint64(idSiswa),  // id_siswa dari URL parameter
+		IdKursus:   uint64(idKursus), // id_kursus dari URL parameter
+		IdSiswa:    uint64(idSiswa),  // id_siswa dari URL parameter
 		NilaiTotal: totalNilai,
-		IdTipeNilai: 2, // Set id_tipe_nilai menjadi 1
+		// IdTipeNilai removed as per request
 	}
 
 	// Simpan nilai ke dalam tabel nilai
