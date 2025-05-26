@@ -6,7 +6,8 @@ type Materi struct {
     IdMateri          uint64    `gorm:"primary_key;autoIncrement" json:"id_materi"`
     JudulMateri string  `gorm:"type:varchar(255);not null" json:"judul_materi"`
     Deskripsi       string  `gorm:"type:varchar(255);not null" json:"deskripsi"`
-    // FilePath      string  `gorm:"type:varchar(255);not null" json:"file_path"`
+    
+    FileUrl      string  `gorm:"type:varchar(255);not null" json:"file_url"`
 	IdKursus      uint64   `gorm:"type:bigint(20) unsigned" json:"id_kursus"`
 	// IdGuru      uint64   `gorm:"type:bigint(20) unsigned" json:"id_guru"`
     CreatedAt        time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP" json:"created_at"`
