@@ -197,7 +197,7 @@ func PutNilai(c *gin.Context) {
 }
 
 // Function untuk recalculate semua nilai untuk semua siswa dalam kursus tertentu
-func RecalculateNilaiKursus(c *gin.Context) {
+func RecalculateNilai(c *gin.Context) {
 	idKursusStr := c.Param("id_kursus")
 
 	// Konversi id_kursus dari string ke uint64
