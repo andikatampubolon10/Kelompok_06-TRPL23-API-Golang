@@ -12,7 +12,7 @@ var DB *gorm.DB
 
 func ConnectDatabase() *gorm.DB {
 	// dsn := "root:@tcp(127.0.0.1:3306)/pkm10?charset=utf8mb4&parseTime=True&loc=Local"
-	dsn := "root:KEoDCfuvLDybxucWYnOWHSFHicWdJetR@tcp(metro.proxy.rlwy.net:50393)/railway?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:TqEAlZPLFBCoByVJzjNnPovfFhumFUuI@tcp(yamanote.proxy.rlwy.net:30985)/railway?charset=utf8mb4&parseTime=True&loc=Local"
 
 	// mysql://root:KEoDCfuvLDybxucWYnOWHSFHicWdJetR@metro.proxy.rlwy.net:50393/railway
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
